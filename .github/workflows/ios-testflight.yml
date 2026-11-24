@@ -11,7 +11,12 @@ jobs:
           ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
         run: |
           mkdir -p ~/.appstoreconnect/private_keys
-          printf "%s\n" "$ASC_KEY_P8" > ~/.appstoreconnect/private_keys/AuthKey_KH8234LV5W.p8
+          # Keep only the PEM block: drops stray characters pasted after the END line and any CR/space.
+          printf "%s\n" "$ASC_KEY_P8" | tr -d '\r' | sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//' \
+            | sed -E 's/^(-----END PRIVATE KEY-----).+$/\1/' \
+            | awk '/-----BEGIN PRIVATE KEY-----/{f=1} f{print} /-----END PRIVATE KEY-----/{exit}' \
+            > ~/.appstoreconnect/private_keys/AuthKey_KH8234LV5W.p8
+          head -c 40 ~/.appstoreconnect/private_keys/AuthKey_KH8234LV5W.p8 | head -1; wc -l < ~/.appstoreconnect/private_keys/AuthKey_KH8234LV5W.p8
       - name: Archive
         working-directory: ios/App
         run: |
