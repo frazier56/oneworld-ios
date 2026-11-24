@@ -6,6 +6,12 @@ jobs:
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
+      - name: Use the newest Xcode 26 (Apple requires the iOS 26 SDK for uploads)
+        run: |
+          X=$(ls -d /Applications/Xcode_26*.app 2>/dev/null | sort -V | tail -1)
+          echo "Xcode choices:"; ls -d /Applications/Xcode*.app
+          [ -n "$X" ] && sudo xcode-select -s "$X/Contents/Developer"
+          xcodebuild -version
       - name: Install JS packages (Capacitor plugins resolve from node_modules)
         run: npm ci
       - name: Copy the web app into the iOS project
