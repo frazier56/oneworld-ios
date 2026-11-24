@@ -28,7 +28,8 @@ jobs:
             -authenticationKeyPath ~/.appstoreconnect/private_keys/AuthKey_KH8234LV5W.p8 \
             -authenticationKeyID KH8234LV5W \
             -authenticationKeyIssuerID 5cb3a9d0-b29a-49a5-a584-fe394eaa5f2d \
-            DEVELOPMENT_TEAM=6KFP9Q7482 CURRENT_PROJECT_VERSION=${{ github.run_number }} archive
+            DEVELOPMENT_TEAM=6KFP9Q7482 CURRENT_PROJECT_VERSION=${{ github.run_number }} \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" archive
       - name: Export and upload to App Store Connect
         working-directory: ios/App
         run: |
