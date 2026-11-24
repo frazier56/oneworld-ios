@@ -11,15 +11,15 @@ jobs:
           ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
         run: |
           mkdir -p ~/.appstoreconnect/private_keys
-          printf "%s\n" "$ASC_KEY_P8" > ~/.appstoreconnect/private_keys/AuthKey_7RBTYV29B8.p8
+          printf "%s\n" "$ASC_KEY_P8" > ~/.appstoreconnect/private_keys/AuthKey_KH8234LV5W.p8
       - name: Archive
         working-directory: ios/App
         run: |
           xcodebuild -project App.xcodeproj -scheme App -configuration Release \
             -destination 'generic/platform=iOS' -archivePath $RUNNER_TEMP/App.xcarchive \
             -allowProvisioningUpdates \
-            -authenticationKeyPath ~/.appstoreconnect/private_keys/AuthKey_7RBTYV29B8.p8 \
-            -authenticationKeyID 7RBTYV29B8 \
+            -authenticationKeyPath ~/.appstoreconnect/private_keys/AuthKey_KH8234LV5W.p8 \
+            -authenticationKeyID KH8234LV5W \
             -authenticationKeyIssuerID 5cb3a9d0-b29a-49a5-a584-fe394eaa5f2d \
             DEVELOPMENT_TEAM=6KFP9Q7482 CURRENT_PROJECT_VERSION=${{ github.run_number }} archive
       - name: Export and upload to App Store Connect
@@ -37,6 +37,6 @@ jobs:
           PL
           xcodebuild -exportArchive -archivePath $RUNNER_TEMP/App.xcarchive -exportOptionsPlist $RUNNER_TEMP/export.plist \
             -allowProvisioningUpdates \
-            -authenticationKeyPath ~/.appstoreconnect/private_keys/AuthKey_7RBTYV29B8.p8 \
-            -authenticationKeyID 7RBTYV29B8 \
+            -authenticationKeyPath ~/.appstoreconnect/private_keys/AuthKey_KH8234LV5W.p8 \
+            -authenticationKeyID KH8234LV5W \
             -authenticationKeyIssuerID 5cb3a9d0-b29a-49a5-a584-fe394eaa5f2d
